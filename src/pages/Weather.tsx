@@ -35,10 +35,15 @@ const Weather = () => {
           fetchWeatherByCoords(position.coords.latitude, position.coords.longitude);
         },
         () => {
-          // If geolocation fails, use default location
+          // If geolocation fails, use default location and fetch weather
           setLocation('New Delhi, India');
+          fetchWeatherByLocation('New Delhi, India');
         }
       );
+    } else {
+      // If geolocation not supported, use default location
+      setLocation('New Delhi, India');
+      fetchWeatherByLocation('New Delhi, India');
     }
   }, []);
 
@@ -82,13 +87,13 @@ const Weather = () => {
     }
   };
 
-  const fetchWeather = async () => {
-    if (!location.trim()) return;
+  const fetchWeatherByLocation = async (loc: string) => {
+    if (!loc.trim()) return;
 
     setIsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('get-weather', {
-        body: { location },
+        body: { location: loc },
       });
 
       if (error) throw error;
@@ -108,6 +113,10 @@ const Weather = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const fetchWeather = async () => {
+    fetchWeatherByLocation(location);
   };
 
   const saveWeatherAlert = async (weatherData: WeatherData) => {

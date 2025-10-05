@@ -29,7 +29,7 @@ const Index = () => {
               <span className="text-sm font-medium text-primary">Empowering Indian Farmers with AI</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-primary-glow to-secondary bg-clip-text text-transparent">
-              KrishiMitra: Your Smart Farming Companion
+              SmartAgriTech: Your Smart Farming Companion
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               AI-powered crop disease detection, multilingual voice assistant, and real-time weather alerts—all in one platform
@@ -123,7 +123,7 @@ const Index = () => {
         <div className="bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 rounded-2xl p-8 md:p-12 text-center border">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Transform Your Farming?</h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of farmers using KrishiMitra to increase yield, reduce crop loss, and farm smarter
+            Join thousands of farmers using SmartAgriTech to increase yield, reduce crop loss, and farm smarter
           </p>
           <Button variant="hero" size="lg" onClick={() => navigate('/auth')}>
             Start Free Today

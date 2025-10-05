@@ -13,8 +13,12 @@ serve(async (req) => {
   try {
     const { location, lat, lon } = await req.json();
 
-    // OpenWeatherMap API (free tier)
-    const API_KEY = '3e321f9414df1379fe79e6ee9c9ab537'; // Demo key - users should replace with their own
+    // OpenWeatherMap API - get from secrets
+    const API_KEY = Deno.env.get('OPENWEATHER_API_KEY');
+    if (!API_KEY) {
+      throw new Error('OPENWEATHER_API_KEY is not configured');
+    }
+    
     let url = '';
 
     if (lat && lon) {
