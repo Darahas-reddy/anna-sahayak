@@ -36,7 +36,7 @@ const Auth = () => {
       if (error) throw error;
 
       toast({
-        title: 'Welcome to KrishiMitra!',
+        title: 'Welcome to SmartAgriTech!',
         description: 'Your account has been created successfully.',
       });
       navigate('/dashboard');
@@ -86,7 +86,7 @@ const Auth = () => {
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-primary to-primary-glow rounded-full flex items-center justify-center mb-4 shadow-lg">
             <Sprout className="w-8 h-8 text-white" />
           </div>
-          <CardTitle className="text-2xl font-bold">KrishiMitra</CardTitle>
+          <CardTitle className="text-2xl font-bold">SmartAgriTech</CardTitle>
           <CardDescription>Your AI-Powered Agricultural Assistant</CardDescription>
         </CardHeader>
         <CardContent>

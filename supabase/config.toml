@@ -1,1 +1,10 @@
 project_id = "dyqhrwvjnosqhaslbmwr"
+
+[functions.detect-disease]
+verify_jwt = true
+
+[functions.chat-assistant]
+verify_jwt = true
+
+[functions.get-weather]
+verify_jwt = true

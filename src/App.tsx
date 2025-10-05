@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import DiseaseDetection from "./pages/DiseaseDetection";
 import Chatbot from "./pages/Chatbot";
 import Products from "./pages/Products";
+import Weather from "./pages/Weather";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,7 +27,7 @@ const App = () => (
           <Route path="/disease-detection" element={<DiseaseDetection />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/weather" element={<Dashboard />} />
+          <Route path="/weather" element={<Weather />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
