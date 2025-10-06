@@ -27,7 +27,19 @@ export const useVoiceInput = ({ onTranscript, language = 'en' }: UseVoiceInputPr
 
       recognition.continuous = false;
       recognition.interimResults = false;
-      recognition.lang = language === 'hi' ? 'hi-IN' : 'en-IN';
+      const languageMap: Record<string, string> = {
+        'en': 'en-IN',
+        'hi': 'hi-IN',
+        'ta': 'ta-IN',
+        'te': 'te-IN',
+        'bn': 'bn-IN',
+        'mr': 'mr-IN',
+        'gu': 'gu-IN',
+        'kn': 'kn-IN',
+        'ml': 'ml-IN',
+        'pa': 'pa-IN'
+      };
+      recognition.lang = languageMap[language] || 'en-IN';
 
       recognition.onstart = () => {
         setIsListening(true);
