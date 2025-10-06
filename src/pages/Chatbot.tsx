@@ -4,10 +4,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Send, Mic, Volume2, Loader2 } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { ArrowLeft, Send, Mic, Volume2, Loader2, MicOff } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import AuthGuard from '@/components/AuthGuard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useVoiceInput } from '@/hooks/useVoiceInput';
 
 interface Message {
   id: string;
@@ -113,6 +114,14 @@ const Chatbot = () => {
       setIsLoading(false);
     }
   };
+
+  const { isListening, startListening, stopListening } = useVoiceInput({
+    onTranscript: (text) => {
+      setInput(text);
+      handleSend();
+    },
+    language,
+  });
 
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
@@ -255,8 +264,13 @@ const Chatbot = () => {
             >
               <Send className="w-5 h-5" />
             </Button>
-            <Button variant="outline" size="icon">
-              <Mic className="w-5 h-5" />
+            <Button 
+              variant={isListening ? "destructive" : "outline"} 
+              size="icon"
+              onClick={isListening ? stopListening : startListening}
+              disabled={isLoading}
+            >
+              {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
             </Button>
           </div>
         </main>
