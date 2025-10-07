@@ -138,8 +138,25 @@ const Chatbot = () => {
         'ml': 'ml-IN',
         'pa': 'pa-IN'
       };
-      utterance.lang = languageMap[language] || 'en-IN';
-      speechSynthesis.speak(utterance);
+      const targetLang = languageMap[language] || 'en-IN';
+
+      const setAndSpeak = () => {
+        const voices = window.speechSynthesis.getVoices();
+        const match = voices.find(v => v.lang?.toLowerCase() === targetLang.toLowerCase())
+          || voices.find(v => v.lang?.toLowerCase().startsWith(targetLang.split('-')[0].toLowerCase()))
+          || null;
+        if (match) utterance.voice = match;
+        utterance.lang = match?.lang || targetLang;
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+      };
+
+      if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = () => setAndSpeak();
+      } else {
+        setAndSpeak();
+      }
     }
   };
 

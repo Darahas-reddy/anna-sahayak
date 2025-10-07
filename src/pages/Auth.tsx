@@ -303,7 +303,7 @@ const Auth = () => {
             </TabsContent>
             
             <TabsContent value="signup">
-              <form onSubmit={handleSignUp} className="space-y-4">
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="fullname">Full Name</Label>
                   <Input
@@ -335,39 +335,107 @@ const Auth = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email-signup">Email</Label>
-                  <Input
-                    id="email-signup"
-                    type="email"
-                    placeholder="farmer@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password-signup">Password</Label>
-                  <Input
-                    id="password-signup"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    minLength={6}
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating account...
-                    </>
-                  ) : (
-                    'Create Account'
-                  )}
-                </Button>
-              </form>
+
+                <Tabs defaultValue="email" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="email">Email</TabsTrigger>
+                    <TabsTrigger value="phone">Phone</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="email" className="mt-4">
+                    <form onSubmit={handleSignUp} className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="email-signup">Email</Label>
+                        <Input
+                          id="email-signup"
+                          type="email"
+                          placeholder="farmer@example.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="password-signup">Password</Label>
+                        <Input
+                          id="password-signup"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                          minLength={6}
+                        />
+                      </div>
+                      <Button type="submit" className="w-full" disabled={isLoading}>
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Creating account...
+                          </>
+                        ) : (
+                          'Create Account'
+                        )}
+                      </Button>
+                    </form>
+                  </TabsContent>
+
+                  <TabsContent value="phone" className="space-y-4 mt-4">
+                    {!otpSent ? (
+                      <>
+                        <div className="space-y-2">
+                          <Label htmlFor="phone-signup">Phone Number</Label>
+                          <Input
+                            id="phone-signup"
+                            type="tel"
+                            placeholder="+91 9876543210"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <Button type="button" className="w-full" onClick={handleSendOTP} disabled={isLoading}>
+                          {isLoading ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Sending OTP...
+                            </>
+                          ) : (
+                            'Send OTP'
+                          )}
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <div className="space-y-2">
+                          <Label htmlFor="otp-signup">Enter OTP</Label>
+                          <Input
+                            id="otp-signup"
+                            type="text"
+                            placeholder="123456"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                            maxLength={6}
+                            required
+                          />
+                        </div>
+                        <Button type="button" className="w-full" onClick={handleVerifyOTP} disabled={isLoading}>
+                          {isLoading ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Verifying...
+                            </>
+                          ) : (
+                            'Verify & Create Account'
+                          )}
+                        </Button>
+                        <Button type="button" variant="ghost" className="w-full" onClick={() => setOtpSent(false)}>
+                          Change Number
+                        </Button>
+                      </>
+                    )}
+                  </TabsContent>
+                </Tabs>
+              </div>
             </TabsContent>
           </Tabs>
         </CardContent>

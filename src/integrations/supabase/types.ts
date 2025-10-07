@@ -44,6 +44,92 @@ export type Database = {
         }
         Relationships: []
       }
+      crop_calendar: {
+        Row: {
+          created_at: string | null
+          crop_name: string
+          expected_harvest_date: string | null
+          field_location: string | null
+          field_size: number | null
+          id: string
+          notes: string | null
+          planting_date: string
+          updated_at: string | null
+          user_id: string
+          variety: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          crop_name: string
+          expected_harvest_date?: string | null
+          field_location?: string | null
+          field_size?: number | null
+          id?: string
+          notes?: string | null
+          planting_date: string
+          updated_at?: string | null
+          user_id: string
+          variety?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          crop_name?: string
+          expected_harvest_date?: string | null
+          field_location?: string | null
+          field_size?: number | null
+          id?: string
+          notes?: string | null
+          planting_date?: string
+          updated_at?: string | null
+          user_id?: string
+          variety?: string | null
+        }
+        Relationships: []
+      }
+      crop_reminders: {
+        Row: {
+          created_at: string | null
+          crop_calendar_id: string
+          description: string | null
+          id: string
+          is_completed: boolean | null
+          reminder_date: string
+          reminder_type: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          crop_calendar_id: string
+          description?: string | null
+          id?: string
+          is_completed?: boolean | null
+          reminder_date: string
+          reminder_type: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          crop_calendar_id?: string
+          description?: string | null
+          id?: string
+          is_completed?: boolean | null
+          reminder_date?: string
+          reminder_type?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_reminders_crop_calendar_id_fkey"
+            columns: ["crop_calendar_id"]
+            isOneToOne: false
+            referencedRelation: "crop_calendar"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       disease_detections: {
         Row: {
           confidence: number | null
@@ -74,6 +160,102 @@ export type Database = {
           image_url?: string
           remedies?: Json | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      government_schemes: {
+        Row: {
+          application_process: string | null
+          benefits: string | null
+          contact_info: string | null
+          created_at: string | null
+          description: string
+          district: string | null
+          eligibility: string | null
+          end_date: string | null
+          id: string
+          is_active: boolean | null
+          scheme_name: string
+          scheme_type: string
+          start_date: string | null
+          state: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          application_process?: string | null
+          benefits?: string | null
+          contact_info?: string | null
+          created_at?: string | null
+          description: string
+          district?: string | null
+          eligibility?: string | null
+          end_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          scheme_name: string
+          scheme_type: string
+          start_date?: string | null
+          state?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          application_process?: string | null
+          benefits?: string | null
+          contact_info?: string | null
+          created_at?: string | null
+          description?: string
+          district?: string | null
+          eligibility?: string | null
+          end_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          scheme_name?: string
+          scheme_type?: string
+          start_date?: string | null
+          state?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      market_prices: {
+        Row: {
+          created_at: string | null
+          crop_name: string
+          currency: string | null
+          date: string
+          district: string
+          id: string
+          market_name: string
+          price_per_quintal: number
+          state: string
+          updated_at: string | null
+          variety: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          crop_name: string
+          currency?: string | null
+          date?: string
+          district: string
+          id?: string
+          market_name: string
+          price_per_quintal: number
+          state: string
+          updated_at?: string | null
+          variety?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          crop_name?: string
+          currency?: string | null
+          date?: string
+          district?: string
+          id?: string
+          market_name?: string
+          price_per_quintal?: number
+          state?: string
+          updated_at?: string | null
+          variety?: string | null
         }
         Relationships: []
       }
