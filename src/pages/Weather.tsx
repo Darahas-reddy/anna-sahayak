@@ -151,9 +151,9 @@ const Weather = () => {
 
   const getWeatherIcon = (description: string) => {
     const desc = description.toLowerCase();
-    if (desc.includes('rain')) return <CloudRain className="w-12 h-12 text-blue-500" />;
-    if (desc.includes('cloud')) return <Cloud className="w-12 h-12 text-gray-500" />;
-    return <Sun className="w-12 h-12 text-yellow-500" />;
+    if (desc.includes('rain')) return <CloudRain className="w-12 h-12 text-primary" />;
+    if (desc.includes('cloud')) return <Cloud className="w-12 h-12 text-muted-foreground" />;
+    return <Sun className="w-12 h-12 text-accent" />;
   };
 
   return (
@@ -208,22 +208,22 @@ const Weather = () => {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="flex flex-col items-center p-4 bg-card rounded-lg">
-                    <Thermometer className="w-8 h-8 text-red-500 mb-2" />
+                    <Thermometer className="w-8 h-8 text-destructive mb-2" />
                     <p className="text-3xl font-bold">{weather.temperature}°C</p>
                     <p className="text-sm text-muted-foreground">Temperature</p>
                   </div>
                   <div className="flex flex-col items-center p-4 bg-card rounded-lg">
-                    <Droplets className="w-8 h-8 text-blue-500 mb-2" />
+                    <Droplets className="w-8 h-8 text-primary mb-2" />
                     <p className="text-3xl font-bold">{weather.humidity}%</p>
                     <p className="text-sm text-muted-foreground">Humidity</p>
                   </div>
                   <div className="flex flex-col items-center p-4 bg-card rounded-lg">
-                    <Wind className="w-8 h-8 text-gray-500 mb-2" />
+                    <Wind className="w-8 h-8 text-muted-foreground mb-2" />
                     <p className="text-3xl font-bold">{weather.windSpeed}</p>
                     <p className="text-sm text-muted-foreground">Wind (km/h)</p>
                   </div>
                   <div className="flex flex-col items-center p-4 bg-card rounded-lg">
-                    <CloudRain className="w-8 h-8 text-blue-600 mb-2" />
+                    <CloudRain className="w-8 h-8 text-primary mb-2" />
                     <p className="text-3xl font-bold">{weather.rainfall}</p>
                     <p className="text-sm text-muted-foreground">Rainfall (mm)</p>
                   </div>
@@ -278,12 +278,12 @@ const Weather = () => {
                       key={alert.id}
                       className={`p-4 rounded-lg border ${
                         alert.alert_type === 'warning'
-                          ? 'bg-yellow-500/10 border-yellow-500/20'
-                          : 'bg-blue-500/10 border-blue-500/20'
+                          ? 'bg-destructive/10 border-destructive/20'
+                          : 'bg-primary/10 border-primary/20'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <AlertTriangle className="w-5 h-5 mt-0.5 text-yellow-600" />
+                        <AlertTriangle className="w-5 h-5 mt-0.5 text-accent" />
                         <div className="flex-1">
                           <p className="font-medium">{alert.message}</p>
                           <p className="text-sm text-muted-foreground mt-1">

@@ -67,13 +67,13 @@ const GovernmentSchemes = () => {
 
   const getSchemeTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      subsidy: 'bg-green-500',
-      loan: 'bg-blue-500',
-      insurance: 'bg-purple-500',
-      training: 'bg-orange-500',
-      other: 'bg-gray-500',
+      subsidy: 'bg-primary',
+      loan: 'bg-secondary',
+      insurance: 'bg-accent',
+      training: 'bg-muted',
+      other: 'bg-muted-foreground',
     };
-    return colors[type] || 'bg-gray-500';
+    return colors[type] || 'bg-muted';
   };
 
   return (

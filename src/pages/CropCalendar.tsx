@@ -18,6 +18,13 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const CropCalendar = () => {
   const [crops, setCrops] = useState<any[]>([]);
@@ -377,20 +384,23 @@ const CropCalendar = () => {
                                 <form onSubmit={handleAddReminder} className="space-y-4">
                                   <div>
                                     <Label htmlFor="reminder_type">Reminder Type</Label>
-                                    <select
-                                      id="reminder_type"
+                                    <Select
                                       value={reminderData.reminder_type}
-                                      onChange={(e) =>
-                                        setReminderData({ ...reminderData, reminder_type: e.target.value })
+                                      onValueChange={(value) =>
+                                        setReminderData({ ...reminderData, reminder_type: value })
                                       }
-                                      className="w-full border rounded-md p-2"
                                     >
-                                      <option value="irrigation">Irrigation</option>
-                                      <option value="fertilization">Fertilization</option>
-                                      <option value="spraying">Spraying</option>
-                                      <option value="harvesting">Harvesting</option>
-                                      <option value="other">Other</option>
-                                    </select>
+                                      <SelectTrigger>
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="irrigation">Irrigation</SelectItem>
+                                        <SelectItem value="fertilization">Fertilization</SelectItem>
+                                        <SelectItem value="spraying">Spraying</SelectItem>
+                                        <SelectItem value="harvesting">Harvesting</SelectItem>
+                                        <SelectItem value="other">Other</SelectItem>
+                                      </SelectContent>
+                                    </Select>
                                   </div>
                                   <div>
                                     <Label htmlFor="title">Title*</Label>
