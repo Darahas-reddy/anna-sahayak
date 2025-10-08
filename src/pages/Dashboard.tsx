@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Camera, MessageCircle, CloudRain, Leaf, LogOut, TrendingUp } from 'lucide-react';
+import { Camera, MessageCircle, CloudRain, Leaf, LogOut, TrendingUp, FileText, IndianRupee, Calendar } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import AuthGuard from '@/components/AuthGuard';
 
@@ -76,7 +76,7 @@ const Dashboard = () => {
         {/* Main Content */}
         <main className="container mx-auto px-4 py-8">
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <Card
               className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-primary/10 to-primary/5"
               onClick={() => navigate('/disease-detection')}
@@ -118,6 +118,39 @@ const Dashboard = () => {
                 <Leaf className="w-8 h-8 text-primary mb-2" />
                 <CardTitle className="text-lg">Safe Products</CardTitle>
                 <CardDescription>Government-approved recommendations</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-secondary/10 to-primary/5"
+              onClick={() => navigate('/market-prices')}
+            >
+              <CardHeader>
+                <IndianRupee className="w-8 h-8 text-secondary mb-2" />
+                <CardTitle className="text-lg">Market Prices</CardTitle>
+                <CardDescription>Real-time mandi prices for crops</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-accent/10 to-secondary/5"
+              onClick={() => navigate('/government-schemes')}
+            >
+              <CardHeader>
+                <FileText className="w-8 h-8 text-accent mb-2" />
+                <CardTitle className="text-lg">Govt Schemes</CardTitle>
+                <CardDescription>Subsidies, loans, and support</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-primary/10 to-secondary/5"
+              onClick={() => navigate('/crop-calendar')}
+            >
+              <CardHeader>
+                <Calendar className="w-8 h-8 text-primary mb-2" />
+                <CardTitle className="text-lg">Crop Calendar</CardTitle>
+                <CardDescription>Manage planting and harvest schedule</CardDescription>
               </CardHeader>
             </Card>
           </div>

@@ -10,6 +10,9 @@ import DiseaseDetection from "./pages/DiseaseDetection";
 import Chatbot from "./pages/Chatbot";
 import Products from "./pages/Products";
 import Weather from "./pages/Weather";
+import MarketPrices from "./pages/MarketPrices";
+import GovernmentSchemes from "./pages/GovernmentSchemes";
+import CropCalendar from "./pages/CropCalendar";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +31,9 @@ const App = () => (
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/products" element={<Products />} />
           <Route path="/weather" element={<Weather />} />
+          <Route path="/market-prices" element={<MarketPrices />} />
+          <Route path="/government-schemes" element={<GovernmentSchemes />} />
+          <Route path="/crop-calendar" element={<CropCalendar />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
