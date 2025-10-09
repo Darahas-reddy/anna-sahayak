@@ -14,6 +14,9 @@ import MarketPrices from "./pages/MarketPrices";
 import GovernmentSchemes from "./pages/GovernmentSchemes";
 import CropCalendar from "./pages/CropCalendar";
 import Profile from "./pages/Profile";
+import YieldPrediction from "./pages/YieldPrediction";
+import FarmAnalytics from "./pages/FarmAnalytics";
+import PestAlerts from "./pages/PestAlerts";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +39,9 @@ const App = () => (
           <Route path="/government-schemes" element={<GovernmentSchemes />} />
           <Route path="/crop-calendar" element={<CropCalendar />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/yield-prediction" element={<YieldPrediction />} />
+          <Route path="/farm-analytics" element={<FarmAnalytics />} />
+          <Route path="/pest-alerts" element={<PestAlerts />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

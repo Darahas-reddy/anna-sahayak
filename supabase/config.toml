@@ -8,3 +8,6 @@ verify_jwt = true
 
 [functions.get-weather]
 verify_jwt = true
+
+[functions.predict-yield]
+verify_jwt = true

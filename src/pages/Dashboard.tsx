@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Camera, MessageCircle, CloudRain, Leaf, LogOut, TrendingUp, FileText, IndianRupee, Calendar, User } from 'lucide-react';
+import { Camera, MessageCircle, CloudRain, Leaf, LogOut, TrendingUp, FileText, IndianRupee, Calendar, User, BarChart3, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import AuthGuard from '@/components/AuthGuard';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -158,6 +158,39 @@ const Dashboard = () => {
                 <Calendar className="w-8 h-8 text-primary mb-2" />
                 <CardTitle className="text-lg">Crop Calendar</CardTitle>
                 <CardDescription>Manage planting and harvest schedule</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-accent/10 to-primary/5"
+              onClick={() => navigate('/yield-prediction')}
+            >
+              <CardHeader>
+                <TrendingUp className="w-8 h-8 text-accent mb-2" />
+                <CardTitle className="text-lg">Yield Prediction</CardTitle>
+                <CardDescription>AI-powered harvest forecasting</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-secondary/10 to-accent/5"
+              onClick={() => navigate('/farm-analytics')}
+            >
+              <CardHeader>
+                <BarChart3 className="w-8 h-8 text-secondary mb-2" />
+                <CardTitle className="text-lg">Farm Analytics</CardTitle>
+                <CardDescription>Track expenses, yields, and profits</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-primary/10 to-accent/5"
+              onClick={() => navigate('/pest-alerts')}
+            >
+              <CardHeader>
+                <AlertTriangle className="w-8 h-8 text-primary mb-2" />
+                <CardTitle className="text-lg">Pest Alerts</CardTitle>
+                <CardDescription>Community pest outbreak warnings</CardDescription>
               </CardHeader>
             </Card>
           </div>
