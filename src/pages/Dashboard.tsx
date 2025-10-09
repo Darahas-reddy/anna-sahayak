@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Camera, MessageCircle, CloudRain, Leaf, LogOut, TrendingUp, FileText, IndianRupee, Calendar } from 'lucide-react';
+import { Camera, MessageCircle, CloudRain, Leaf, LogOut, TrendingUp, FileText, IndianRupee, Calendar, User } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import AuthGuard from '@/components/AuthGuard';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Dashboard = () => {
   const [profile, setProfile] = useState<any>(null);
@@ -62,14 +63,20 @@ const Dashboard = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-glow rounded-full flex items-center justify-center">
                 <Leaf className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <h1 className="text-xl font-bold">SmartAgriTech</h1>
-                <p className="text-xs text-muted-foreground">Welcome, {profile?.full_name || 'Farmer'}</p>
-              </div>
+            <div>
+              <h1 className="text-xl font-bold">SmartAgriTech</h1>
+              <p className="text-xs text-muted-foreground">Welcome, {profile?.full_name || 'Farmer'}</p>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button variant="ghost" size="icon" onClick={() => navigate('/profile')}>
+              <User className="w-5 h-5" />
+            </Button>
             <Button variant="ghost" size="icon" onClick={handleSignOut}>
               <LogOut className="w-5 h-5" />
             </Button>
+          </div>
           </div>
         </header>
 

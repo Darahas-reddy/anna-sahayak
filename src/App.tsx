@@ -13,6 +13,7 @@ import Weather from "./pages/Weather";
 import MarketPrices from "./pages/MarketPrices";
 import GovernmentSchemes from "./pages/GovernmentSchemes";
 import CropCalendar from "./pages/CropCalendar";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/market-prices" element={<MarketPrices />} />
           <Route path="/government-schemes" element={<GovernmentSchemes />} />
           <Route path="/crop-calendar" element={<CropCalendar />} />
+          <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
