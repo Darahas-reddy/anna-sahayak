@@ -163,6 +163,39 @@ export type Database = {
         }
         Relationships: []
       }
+      farm_expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string | null
+          description: string | null
+          expense_date: string
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string | null
+          description?: string | null
+          expense_date: string
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          expense_date?: string
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       government_schemes: {
         Row: {
           application_process: string | null
@@ -256,6 +289,80 @@ export type Database = {
           state?: string
           updated_at?: string | null
           variety?: string | null
+        }
+        Relationships: []
+      }
+      pest_alert_confirmations: {
+        Row: {
+          alert_id: string | null
+          created_at: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          alert_id?: string | null
+          created_at?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          alert_id?: string | null
+          created_at?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pest_alert_confirmations_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "pest_alerts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pest_alerts: {
+        Row: {
+          confirmed_count: number | null
+          created_at: string | null
+          crop_affected: string | null
+          description: string
+          district: string | null
+          id: string
+          image_url: string | null
+          location: string
+          pest_name: string
+          severity: string
+          state: string | null
+          user_id: string
+        }
+        Insert: {
+          confirmed_count?: number | null
+          created_at?: string | null
+          crop_affected?: string | null
+          description: string
+          district?: string | null
+          id?: string
+          image_url?: string | null
+          location: string
+          pest_name: string
+          severity: string
+          state?: string | null
+          user_id: string
+        }
+        Update: {
+          confirmed_count?: number | null
+          created_at?: string | null
+          crop_affected?: string | null
+          description?: string
+          district?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string
+          pest_name?: string
+          severity?: string
+          state?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -357,6 +464,78 @@ export type Database = {
           location?: string
           message?: string
           severity?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      yield_predictions: {
+        Row: {
+          confidence_level: number | null
+          created_at: string | null
+          crop_name: string
+          expected_harvest_date: string | null
+          factors: Json | null
+          id: string
+          predicted_yield: number
+          prediction_date: string
+          user_id: string
+        }
+        Insert: {
+          confidence_level?: number | null
+          created_at?: string | null
+          crop_name: string
+          expected_harvest_date?: string | null
+          factors?: Json | null
+          id?: string
+          predicted_yield: number
+          prediction_date: string
+          user_id: string
+        }
+        Update: {
+          confidence_level?: number | null
+          created_at?: string | null
+          crop_name?: string
+          expected_harvest_date?: string | null
+          factors?: Json | null
+          id?: string
+          predicted_yield?: number
+          prediction_date?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      yield_records: {
+        Row: {
+          created_at: string | null
+          crop_name: string
+          field_location: string | null
+          harvest_date: string
+          id: string
+          quantity: number
+          revenue: number | null
+          unit: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          crop_name: string
+          field_location?: string | null
+          harvest_date: string
+          id?: string
+          quantity: number
+          revenue?: number | null
+          unit?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          crop_name?: string
+          field_location?: string | null
+          harvest_date?: string
+          id?: string
+          quantity?: number
+          revenue?: number | null
+          unit?: string
           user_id?: string
         }
         Relationships: []
