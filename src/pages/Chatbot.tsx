@@ -31,6 +31,26 @@ const Chatbot = () => {
   }, []);
 
   useEffect(() => {
+    const loadPreferredLanguage = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        const { data } = await supabase
+          .from('profiles')
+          .select('language')
+          .eq('user_id', user.id)
+          .single();
+        if (data?.language) {
+          setLanguage(data.language);
+        }
+      } catch (e) {
+        // ignore and keep default
+      }
+    };
+    loadPreferredLanguage();
+  }, []);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
@@ -123,9 +143,40 @@ const Chatbot = () => {
     language,
   });
 
+  const sanitizeForSpeech = (raw: string): string => {
+    let s = raw;
+    // Remove code blocks and inline code
+    s = s.replace(/```[\s\S]*?```/g, ' ');
+    s = s.replace(/`([^`]*)`/g, '$1');
+    // Strip markdown links, keep label
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1');
+    // Remove images syntax ![alt](url)
+    s = s.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ');
+    // Remove bare URLs
+    s = s.replace(/https?:\/\/\S+/g, ' ');
+    // Replace common symbols with words
+    s = s.replace(/&/g, ' and ');
+    s = s.replace(/%/g, ' percent ');
+    s = s.replace(/\*/g, ' ');
+    s = s.replace(/[#_~^><`|]/g, ' ');
+    s = s.replace(/•/g, ' ');
+    s = s.replace(/\+/g, ' plus ');
+    s = s.replace(/\//g, ' slash ');
+    // Remove emoji and non-word pictographs
+    s = s.replace(/[\u{1F300}-\u{1FAFF}\u{1F000}-\u{1F02F}\u{2600}-\u{27BF}]/gu, ' ');
+    // Collapse multiple punctuation
+    s = s.replace(/[.,!?;:]{2,}/g, '. ');
+    // Normalize whitespace and newlines to pauses
+    s = s.replace(/[\r\t]+/g, ' ');
+    s = s.replace(/\n{2,}/g, '. ');
+    s = s.replace(/\n/g, ', ');
+    s = s.replace(/\s{2,}/g, ' ');
+    return s.trim();
+  };
+
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
+      const utterance = new SpeechSynthesisUtterance(sanitizeForSpeech(text));
       const languageMap: Record<string, string> = {
         'en': 'en-IN',
         'hi': 'hi-IN',
@@ -173,7 +224,22 @@ const Chatbot = () => {
                 <h1 className="text-xl font-bold">AI Assistant</h1>
                 <p className="text-xs text-muted-foreground">Ask anything about farming</p>
               </div>
-              <Select value={language} onValueChange={setLanguage}>
+              <Select
+                value={language}
+                onValueChange={async (value) => {
+                  setLanguage(value);
+                  try {
+                    const { data: { user } } = await supabase.auth.getUser();
+                    if (!user) return;
+                    await supabase
+                      .from('profiles')
+                      .update({ language: value })
+                      .eq('user_id', user.id);
+                  } catch (e) {
+                    // non-blocking; ignore persistence errors
+                  }
+                }}
+              >
                 <SelectTrigger className="w-32">
                   <SelectValue />
                 </SelectTrigger>

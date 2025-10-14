@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 interface UseVoiceInputProps {
@@ -81,6 +81,22 @@ export const useVoiceInput = ({ onTranscript, language = 'en' }: UseVoiceInputPr
       recognitionRef.current.stop();
       setIsListening(false);
     }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.onstart = null;
+          recognitionRef.current.onresult = null;
+          recognitionRef.current.onerror = null;
+          recognitionRef.current.onend = null;
+          recognitionRef.current.stop();
+        } catch (_) {
+          // ignore cleanup errors
+        }
+      }
+    };
   }, []);
 
   return {
