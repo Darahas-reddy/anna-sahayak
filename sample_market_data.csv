@@ -1,0 +1,65 @@
+crop_name,variety,market_name,district,state,price_per_quintal,date
+Wheat,Sharbati,APMC Mumbai,Mumbai,Maharashtra,2850,2024-01-15
+Wheat,Durum,Azadpur Mandi,North Delhi,Delhi,3200,2024-01-15
+Wheat,Sharbati,Kolkata APMC,Kolkata,West Bengal,2950,2024-01-15
+Wheat,Durum,Chandigarh Mandi,Chandigarh,Punjab,3100,2024-01-15
+Wheat,Sharbati,Bangalore APMC,Bangalore,Karnataka,2750,2024-01-15
+Wheat,Durum,Chennai Koyambedu,Chennai,Tamil Nadu,2800,2024-01-15
+Wheat,Sharbati,Ahmedabad APMC,Ahmedabad,Gujarat,2900,2024-01-15
+Wheat,Durum,Hyderabad APMC,Hyderabad,Telangana,3000,2024-01-15
+Rice,Basmati,Delhi Mandi,North Delhi,Delhi,4500,2024-01-15
+Rice,Sona Masuri,Bangalore APMC,Bangalore,Karnataka,3800,2024-01-15
+Rice,Basmati,Chandigarh Mandi,Chandigarh,Punjab,4200,2024-01-15
+Rice,Sona Masuri,Hyderabad APMC,Hyderabad,Telangana,3600,2024-01-15
+Rice,Basmati,Kolkata APMC,Kolkata,West Bengal,4100,2024-01-15
+Rice,Sona Masuri,Chennai Koyambedu,Chennai,Tamil Nadu,3700,2024-01-15
+Maize,Hybrid,APMC Mumbai,Mumbai,Maharashtra,2200,2024-01-15
+Maize,Hybrid,Azadpur Mandi,North Delhi,Delhi,2400,2024-01-15
+Maize,Hybrid,Bangalore APMC,Bangalore,Karnataka,2100,2024-01-15
+Maize,Hybrid,Hyderabad APMC,Hyderabad,Telangana,2300,2024-01-15
+Wheat,Sharbati,APMC Mumbai,Mumbai,Maharashtra,2800,2024-01-10
+Wheat,Sharbati,APMC Mumbai,Mumbai,Maharashtra,2820,2024-01-12
+Wheat,Sharbati,APMC Mumbai,Mumbai,Maharashtra,2850,2024-01-15
+Rice,Basmati,Delhi Mandi,North Delhi,Delhi,4400,2024-01-10
+Rice,Basmati,Delhi Mandi,North Delhi,Delhi,4450,2024-01-12
+Rice,Basmati,Delhi Mandi,North Delhi,Delhi,4500,2024-01-15
+Wheat,Sharbati,Lucknow APMC,Lucknow,Uttar Pradesh,2925,2024-02-05
+Wheat,Sharbati,Jaipur Mandi,Jaipur,Rajasthan,2880,2024-02-05
+Wheat,Sharbati,Indore APMC,Indore,Madhya Pradesh,2950,2024-02-05
+Wheat,Sharbati,Patna Mandi,Patna,Bihar,2810,2024-02-05
+Wheat,Sharbati,Kochi Market,Ernakulam,Kerala,2990,2024-02-05
+Wheat,Sharbati,Bhubaneswar Mandi,Bhubaneswar,Odisha,2860,2024-02-05
+Wheat,Sharbati,Guwahati Market,Guwahati,Assam,2790,2024-02-05
+Wheat,Sharbati,Vijayawada APMC,Vijayawada,Andhra Pradesh,2840,2024-02-05
+Wheat,Sharbati,Raipur Mandi,Raipur,Chhattisgarh,2835,2024-02-05
+Wheat,Sharbati,Ranchi Market,Ranchi,Jharkhand,2825,2024-02-05
+Wheat,Sharbati,Pune APMC,Pune,Maharashtra,2910,2024-02-05
+Wheat,Sharbati,Surat APMC,Surat,Gujarat,2895,2024-02-05
+Wheat,Sharbati,Ludhiana Mandi,Ludhiana,Punjab,3010,2024-02-05
+Wheat,Sharbati,Kolkata APMC,Kolkata,West Bengal,2975,2024-02-05
+Wheat,Sharbati,Nagpur Mandi,Nagpur,Maharashtra,2870,2024-02-05
+Rice,Basmati,Lucknow APMC,Lucknow,Uttar Pradesh,4620,2024-02-05
+Rice,Sona Masuri,Vijayawada APMC,Vijayawada,Andhra Pradesh,3720,2024-02-05
+Rice,Basmati,Jaipur Mandi,Jaipur,Rajasthan,4330,2024-02-05
+Rice,Basmati,Indore APMC,Indore,Madhya Pradesh,4250,2024-02-05
+Rice,Sona Masuri,Patna Mandi,Patna,Bihar,3580,2024-02-05
+Rice,Basmati,Kochi Market,Ernakulam,Kerala,4680,2024-02-05
+Rice,Sona Masuri,Bhubaneswar Mandi,Bhubaneswar,Odisha,3660,2024-02-05
+Rice,Basmati,Guwahati Market,Guwahati,Assam,4160,2024-02-05
+Rice,Sona Masuri,Raipur Mandi,Raipur,Chhattisgarh,3520,2024-02-05
+Rice,Basmati,Ranchi Market,Ranchi,Jharkhand,4120,2024-02-05
+Rice,Sona Masuri,Kochi Market,Ernakulam,Kerala,3820,2024-02-05
+Rice,Basmati,Pune APMC,Pune,Maharashtra,4380,2024-02-05
+Maize,Hybrid,Lucknow APMC,Lucknow,Uttar Pradesh,2380,2024-02-05
+Maize,Hybrid,Jaipur Mandi,Jaipur,Rajasthan,2290,2024-02-05
+Maize,Hybrid,Indore APMC,Indore,Madhya Pradesh,2360,2024-02-05
+Maize,Hybrid,Patna Mandi,Patna,Bihar,2240,2024-02-05
+Maize,Hybrid,Kochi Market,Ernakulam,Kerala,2450,2024-02-05
+Maize,Hybrid,Bhubaneswar Mandi,Bhubaneswar,Odisha,2320,2024-02-05
+Maize,Hybrid,Guwahati Market,Guwahati,Assam,2210,2024-02-05
+Maize,Hybrid,Vijayawada APMC,Vijayawada,Andhra Pradesh,2280,2024-02-05
+Maize,Hybrid,Raipur Mandi,Raipur,Chhattisgarh,2265,2024-02-05
+Maize,Hybrid,Ranchi Market,Ranchi,Jharkhand,2235,2024-02-05
+Wheat,Sharbati,Lucknow APMC,Lucknow,Uttar Pradesh,2900,2024-01-25
+Rice,Basmati,Lucknow APMC,Lucknow,Uttar Pradesh,4550,2024-01-25
+Maize,Hybrid,Lucknow APMC,Lucknow,Uttar Pradesh,2350,2024-01-25
