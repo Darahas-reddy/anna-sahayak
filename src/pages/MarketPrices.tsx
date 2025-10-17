@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { ArrowLeft } from 'lucide-react';
 
 type MarketPriceRow = {
   id: string;
@@ -13,6 +16,7 @@ type MarketPriceRow = {
 };
 
 const MarketPrices = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [allPrices, setAllPrices] = useState<MarketPriceRow[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -72,9 +76,20 @@ const MarketPrices = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-6">
-        <h1 className="text-xl font-bold">Market Prices</h1>
-        <p className="text-sm text-muted-foreground">Select a crop to view latest state-wise prices</p>
+      <div className="flex items-center mb-6">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="mr-2" 
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="h-4 w-4 mr-1" />
+          Back
+        </Button>
+        <div>
+          <h1 className="text-xl font-bold">Market Prices</h1>
+          <p className="text-sm text-muted-foreground">Select a crop to view latest state-wise prices</p>
+        </div>
       </div>
 
       <Card className="mb-6">

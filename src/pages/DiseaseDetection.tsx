@@ -183,7 +183,7 @@ const DiseaseDetection = () => {
                   <p className="text-foreground">{results.disease || 'No disease detected'}</p>
                   {results.confidence && (
                     <p className="text-sm text-muted-foreground mt-1">
-                      Confidence: {Math.round(results.confidence)}%
+                      Confidence: {typeof results.confidence === 'number' ? Math.round(results.confidence) : results.confidence}%
                     </p>
                   )}
                 </div>

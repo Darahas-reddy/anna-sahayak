@@ -11,12 +11,17 @@ import Chatbot from "./pages/Chatbot";
 import Products from "./pages/Products";
 import Weather from "./pages/Weather";
 import MarketPrices from "./pages/MarketPrices";
+import ToolsPage from "./pages/Tools";
+import ToolDetailsPage from "./pages/ToolDetails";
+import MyToolsPage from "./pages/MyTools";
+import MyRentalsPage from "./pages/MyRentals";
 import GovernmentSchemes from "./pages/GovernmentSchemes";
 import CropCalendar from "./pages/CropCalendar";
 import Profile from "./pages/Profile";
 import YieldPrediction from "./pages/YieldPrediction";
 import FarmAnalytics from "./pages/FarmAnalytics";
 import PestAlerts from "./pages/PestAlerts";
+import EquipmentRental from "./pages/EquipmentRental";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,7 +44,12 @@ const App = () => (
           <Route path="/government-schemes" element={<GovernmentSchemes />} />
           <Route path="/crop-calendar" element={<CropCalendar />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/tools" element={<ToolsPage />} />
+          <Route path="/tools/:id" element={<ToolDetailsPage />} />
+          <Route path="/dashboard/my-tools" element={<MyToolsPage />} />
+          <Route path="/dashboard/my-rentals" element={<MyRentalsPage />} />
           <Route path="/yield-prediction" element={<YieldPrediction />} />
+          <Route path="/equipment-rental" element={<EquipmentRental />} />
           <Route path="/farm-analytics" element={<FarmAnalytics />} />
           <Route path="/pest-alerts" element={<PestAlerts />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

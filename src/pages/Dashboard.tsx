@@ -184,13 +184,19 @@ const Dashboard = () => {
             </Card>
 
             <Card
-              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-primary/10 to-accent/5"
-              onClick={() => navigate('/pest-alerts')}
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-secondary/10 to-primary/5"
+              onClick={() => navigate('/equipment-rental')}
             >
               <CardHeader>
-                <AlertTriangle className="w-8 h-8 text-primary mb-2" />
-                <CardTitle className="text-lg">Pest Alerts</CardTitle>
-                <CardDescription>Community pest outbreak warnings</CardDescription>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-secondary mb-2">
+                  <path d="M7 21h10"></path>
+                  <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+                  <path d="M12 17v4"></path>
+                  <path d="M8 8h8"></path>
+                  <path d="M8 12h8"></path>
+                </svg>
+                <CardTitle className="text-lg">Equipment Rental</CardTitle>
+                <CardDescription>Rent or share farming equipment</CardDescription>
               </CardHeader>
             </Card>
           </div>
