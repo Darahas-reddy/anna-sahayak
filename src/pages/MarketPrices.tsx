@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, RefreshCw } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 type MarketPriceRow = {
   id: string;
@@ -21,25 +22,70 @@ const MarketPrices = () => {
   const [allPrices, setAllPrices] = useState<MarketPriceRow[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedCrop, setSelectedCrop] = useState<string>('');
+  const [refreshing, setRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
   useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('market_prices')
-          .select('id,crop_name,state,price_per_quintal,date')
-          .order('date', { ascending: false });
-        if (error) throw error;
-        setAllPrices((data as MarketPriceRow[]) || []);
-      } catch (e: any) {
-        toast({ title: 'Failed to load market prices', description: e.message, variant: 'destructive' });
-      } finally {
-        setLoading(false);
-      }
-    };
     load();
+    // Auto-refresh every 5 minutes
+    const interval = setInterval(() => {
+      load();
+    }, 5 * 60 * 1000);
+    return () => clearInterval(interval);
   }, [toast]);
+
+  const load = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('market_prices')
+        .select('id,crop_name,state,price_per_quintal,date')
+        .order('date', { ascending: false });
+      if (error) throw error;
+      setAllPrices((data as MarketPriceRow[]) || []);
+      setLastUpdated(new Date());
+    } catch (e: any) {
+      toast({ title: 'Failed to load market prices', description: e.message, variant: 'destructive' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchLivePrices = async () => {
+    setRefreshing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('market-prices', {
+        body: { crop: selectedCrop, limit: 500 }
+      });
+      
+      if (error) throw error;
+      
+      if (data?.data && data.data.length > 0) {
+        // Insert new prices into database
+        const { error: insertError } = await supabase
+          .from('market_prices')
+          .upsert(data.data, { onConflict: 'crop_name,state,date' });
+        
+        if (insertError) throw insertError;
+        
+        toast({ 
+          title: 'Prices updated!', 
+          description: `Fetched ${data.data.length} latest market prices` 
+        });
+        
+        // Reload data
+        await load();
+      }
+    } catch (e: any) {
+      toast({ 
+        title: 'Failed to fetch live prices', 
+        description: e.message, 
+        variant: 'destructive' 
+      });
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const crops = useMemo(() => {
     const normalizedToOriginal = new Map<string, string>();
@@ -76,19 +122,34 @@ const MarketPrices = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center mb-6">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="mr-2" 
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft className="h-4 w-4 mr-1" />
-          Back
-        </Button>
-        <div>
-          <h1 className="text-xl font-bold">Market Prices</h1>
-          <p className="text-sm text-muted-foreground">Select a crop to view latest state-wise prices</p>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+        <div className="flex items-center">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="mr-2" 
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Back
+          </Button>
+          <div>
+            <h1 className="text-xl font-bold">Real-Time Mandi Prices</h1>
+            <p className="text-sm text-muted-foreground">Live market prices from government sources</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Badge variant="outline" className="text-xs">
+            Updated: {lastUpdated.toLocaleTimeString()}
+          </Badge>
+          <Button 
+            onClick={fetchLivePrices} 
+            disabled={refreshing}
+            size="sm"
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+            {refreshing ? 'Fetching...' : 'Refresh Live Data'}
+          </Button>
         </div>
       </div>
 

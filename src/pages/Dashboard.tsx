@@ -64,7 +64,7 @@ const Dashboard = () => {
                 <Leaf className="w-5 h-5 text-white" />
               </div>
             <div>
-              <h1 className="text-xl font-bold">SmartAgriTech</h1>
+              <h1 className="text-xl font-bold">Kisaan Mithraa</h1>
               <p className="text-xs text-muted-foreground">Welcome, {profile?.full_name || 'Farmer'}</p>
             </div>
           </div>
@@ -197,6 +197,28 @@ const Dashboard = () => {
                 </svg>
                 <CardTitle className="text-lg">Equipment Rental</CardTitle>
                 <CardDescription>Rent or share farming equipment</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-primary/10 to-accent/5"
+              onClick={() => navigate('/loans-insurance')}
+            >
+              <CardHeader>
+                <FileText className="w-8 h-8 text-primary mb-2" />
+                <CardTitle className="text-lg">Loans & Insurance</CardTitle>
+                <CardDescription>Financial assistance and protection</CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-accent/10 to-secondary/5"
+              onClick={() => navigate('/pest-alerts')}
+            >
+              <CardHeader>
+                <AlertTriangle className="w-8 h-8 text-accent mb-2" />
+                <CardTitle className="text-lg">Pest Alerts</CardTitle>
+                <CardDescription>Community pest warnings</CardDescription>
               </CardHeader>
             </Card>
           </div>

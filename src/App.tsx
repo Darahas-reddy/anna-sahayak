@@ -22,6 +22,7 @@ import YieldPrediction from "./pages/YieldPrediction";
 import FarmAnalytics from "./pages/FarmAnalytics";
 import PestAlerts from "./pages/PestAlerts";
 import EquipmentRental from "./pages/EquipmentRental";
+import LoansInsurance from "./pages/LoansInsurance";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/equipment-rental" element={<EquipmentRental />} />
           <Route path="/farm-analytics" element={<FarmAnalytics />} />
           <Route path="/pest-alerts" element={<PestAlerts />} />
+          <Route path="/loans-insurance" element={<LoansInsurance />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

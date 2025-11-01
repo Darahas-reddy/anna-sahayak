@@ -253,6 +253,75 @@ const Weather = () => {
                     )}
                   </ul>
                 </div>
+
+                {/* Recommended Crops */}
+                <div className="mt-6 p-4 bg-accent/10 rounded-lg border border-accent/20">
+                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <Leaf className="w-4 h-4" />
+                    Recommended Crops for Current Weather
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Kharif Season Crops (June-October) */}
+                    {weather.rainfall > 30 && weather.temperature >= 25 && (
+                      <div className="space-y-2">
+                        <p className="text-xs font-medium text-muted-foreground">Suitable for Current Conditions</p>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-medium">Rice</span>
+                          <span className="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-medium">Cotton</span>
+                          <span className="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-medium">Soybean</span>
+                          <span className="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-medium">Maize</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">Best for monsoon/high rainfall conditions</p>
+                      </div>
+                    )}
+                    
+                    {/* Rabi Season Crops (November-March) */}
+                    {weather.rainfall < 30 && weather.temperature < 25 && (
+                      <div className="space-y-2">
+                        <p className="text-xs font-medium text-muted-foreground">Suitable for Current Conditions</p>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-xs font-medium">Wheat</span>
+                          <span className="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-xs font-medium">Barley</span>
+                          <span className="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-xs font-medium">Mustard</span>
+                          <span className="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-xs font-medium">Gram</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">Best for winter/low rainfall conditions</p>
+                      </div>
+                    )}
+                    
+                    {/* Summer/Zaid Crops */}
+                    {weather.temperature > 30 && weather.humidity < 60 && (
+                      <div className="space-y-2">
+                        <p className="text-xs font-medium text-muted-foreground">Summer Season Options</p>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-3 py-1 bg-accent/20 text-accent rounded-full text-xs font-medium">Watermelon</span>
+                          <span className="px-3 py-1 bg-accent/20 text-accent rounded-full text-xs font-medium">Cucumber</span>
+                          <span className="px-3 py-1 bg-accent/20 text-accent rounded-full text-xs font-medium">Pumpkin</span>
+                          <span className="px-3 py-1 bg-accent/20 text-accent rounded-full text-xs font-medium">Moong Dal</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">Heat-tolerant summer crops</p>
+                      </div>
+                    )}
+
+                    {/* All-season vegetables */}
+                    <div className="space-y-2">
+                      <p className="text-xs font-medium text-muted-foreground">All-Season Vegetables</p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-3 py-1 bg-muted text-foreground rounded-full text-xs font-medium">Tomato</span>
+                        <span className="px-3 py-1 bg-muted text-foreground rounded-full text-xs font-medium">Onion</span>
+                        <span className="px-3 py-1 bg-muted text-foreground rounded-full text-xs font-medium">Potato</span>
+                        <span className="px-3 py-1 bg-muted text-foreground rounded-full text-xs font-medium">Cabbage</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Can be grown year-round with proper irrigation</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 pt-4 border-t">
+                    <p className="text-xs text-muted-foreground">
+                      <strong>Note:</strong> Crop recommendations are based on current weather. Consult local agricultural experts for specific soil and regional suitability.
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           )}

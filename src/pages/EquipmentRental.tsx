@@ -1,67 +1,29 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Calendar, MapPin, Search, Plus } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { ArrowLeft, Calendar, MapPin, Search, Plus, Filter, Tractor, Phone } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import AuthGuard from '@/components/AuthGuard';
-
-// Mock data for demonstration
-const mockEquipment = [
-  {
-    id: 1,
-    name: 'John Deere 5E Tractor',
-    category: 'Tractor',
-    description: 'Powerful 55HP tractor with front loader, perfect for small to medium farms.',
-    daily_rate: 2500,
-    location: 'Pune, Maharashtra',
-    image_url: 'https://placehold.co/600x400?text=Tractor',
-    owner_name: 'Rajesh Kumar',
-    owner_contact: '+91 9876543210',
-    available_from: '2023-06-01',
-    available_to: '2023-08-30'
-  },
-  {
-    id: 2,
-    name: 'Mahindra Harvester',
-    category: 'Harvester',
-    description: 'Efficient harvester for wheat and rice crops with minimal grain loss.',
-    daily_rate: 3500,
-    location: 'Nashik, Maharashtra',
-    image_url: 'https://placehold.co/600x400?text=Harvester',
-    owner_name: 'Sunil Patil',
-    owner_contact: '+91 9876543211',
-    available_from: '2023-06-15',
-    available_to: '2023-09-15'
-  },
-  {
-    id: 3,
-    name: 'Sprayer Equipment',
-    category: 'Sprayer',
-    description: 'Modern sprayer with 500L tank capacity and 12m boom width.',
-    daily_rate: 1200,
-    location: 'Nagpur, Maharashtra',
-    image_url: 'https://placehold.co/600x400?text=Sprayer',
-    owner_name: 'Amit Singh',
-    owner_contact: '+91 9876543212',
-    available_from: '2023-07-01',
-    available_to: '2023-10-31'
-  }
-];
 
 type Equipment = {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   daily_rate: number;
-  location: string;
+  location?: string;
   owner_id: string;
-  owner_name: string;
-  owner_phone: string;
-  image_url: string;
-  available_from: string;
-  available_to: string;
-  equipment_type: string;
+  category: string;
+  available?: boolean;
+  image_url?: string;
+  created_at?: string;
 };
 
 const EquipmentRental = () => {
@@ -73,14 +35,12 @@ const EquipmentRental = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [equipmentType, setEquipmentType] = useState('');
   const [showRentalForm, setShowRentalForm] = useState(false);
-  const [newEquipment, setNewEquipment] = useState<Partial<Equipment>>({
+  const [newEquipment, setNewEquipment] = useState({
     name: '',
     description: '',
     daily_rate: 0,
     location: '',
-    equipment_type: '',
-    available_from: '',
-    available_to: '',
+    category: '',
     image_url: 'https://placehold.co/600x400?text=Equipment+Image',
   });
 
@@ -93,27 +53,21 @@ const EquipmentRental = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       
-      // Fetch all equipment listings
-      const { data: allEquipment, error } = await supabase
-        .from('equipment')
-        .select('*')
-        .order('created_at', { ascending: false });
+      // Fetch all tools (equipment)
+      const { data: allTools, error } = await supabase.functions.invoke('tools', {
+        method: 'GET'
+      });
       
       if (error) throw error;
       
-      // Fetch user's own listings
-      if (user) {
-        const { data: userEquipment, error: userError } = await supabase
-          .from('equipment')
-          .select('*')
-          .eq('owner_id', user.id)
-          .order('created_at', { ascending: false });
-        
-        if (userError) throw userError;
-        setMyListings(userEquipment || []);
-      }
+      const tools = allTools?.data || [];
+      setEquipmentList(tools);
       
-      setEquipmentList(allEquipment || []);
+      // Filter user's own listings
+      if (user) {
+        const userTools = tools.filter((tool: Equipment) => tool.owner_id === user.id);
+        setMyListings(userTools);
+      }
     } catch (error: any) {
       toast({
         title: 'Error fetching equipment',
@@ -130,25 +84,17 @@ const EquipmentRental = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('You must be logged in to add equipment');
 
-      // Get user profile for owner details
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('full_name, phone')
-        .eq('id', user.id)
-        .single();
-
-      const { error } = await supabase.from('equipment').insert({
-        name: newEquipment.name,
-        description: newEquipment.description,
-        daily_rate: newEquipment.daily_rate,
-        location: newEquipment.location,
-        owner_id: user.id,
-        owner_name: profile?.full_name || 'Anonymous',
-        owner_phone: profile?.phone || 'Not provided',
-        image_url: newEquipment.image_url,
-        available_from: newEquipment.available_from,
-        available_to: newEquipment.available_to,
-        equipment_type: newEquipment.equipment_type,
+      const { data, error } = await supabase.functions.invoke('tools', {
+        method: 'POST',
+        body: {
+          name: newEquipment.name,
+          description: newEquipment.description,
+          daily_rate: newEquipment.daily_rate,
+          location: newEquipment.location,
+          category: newEquipment.category,
+          image_url: newEquipment.image_url,
+          available: true
+        }
       });
 
       if (error) throw error;
@@ -164,9 +110,7 @@ const EquipmentRental = () => {
         description: '',
         daily_rate: 0,
         location: '',
-        equipment_type: '',
-        available_from: '',
-        available_to: '',
+        category: '',
         image_url: 'https://placehold.co/600x400?text=Equipment+Image',
       });
       
@@ -181,46 +125,16 @@ const EquipmentRental = () => {
   };
 
   const handleRequestRental = async (equipment: Equipment) => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('You must be logged in to request a rental');
-
-      // Get user profile for renter details
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('full_name, phone')
-        .eq('id', user.id)
-        .single();
-
-      const { error } = await supabase.from('rental_requests').insert({
-        equipment_id: equipment.id,
-        renter_id: user.id,
-        renter_name: profile?.full_name || 'Anonymous',
-        renter_phone: profile?.phone || 'Not provided',
-        owner_id: equipment.owner_id,
-        status: 'pending',
-        request_date: new Date().toISOString(),
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: 'Rental request sent',
-        description: 'The owner will contact you soon',
-      });
-    } catch (error: any) {
-      toast({
-        title: 'Error requesting rental',
-        description: error.message,
-        variant: 'destructive',
-      });
-    }
+    toast({
+      title: 'Contact Owner',
+      description: 'Please contact the owner directly to arrange the rental. Booking system coming soon!',
+    });
   };
 
   const filteredEquipment = equipmentList.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          item.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = equipmentType ? item.equipment_type === equipmentType : true;
+                          (item.description?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+    const matchesType = equipmentType ? item.category === equipmentType : true;
     return matchesSearch && matchesType;
   });
 
@@ -310,30 +224,26 @@ const EquipmentRental = () => {
                       </div>
                       <CardHeader>
                         <CardTitle>{equipment.name}</CardTitle>
-                        <CardDescription>{equipment.equipment_type}</CardDescription>
+                        <CardDescription>{equipment.category}</CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-2">
-                        <p className="text-sm">{equipment.description}</p>
+                        <p className="text-sm">{equipment.description || 'No description available'}</p>
                         <div className="flex items-center text-sm text-muted-foreground">
                           <MapPin className="h-4 w-4 mr-1" />
-                          <span>{equipment.location}</span>
-                        </div>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <Calendar className="h-4 w-4 mr-1" />
-                          <span>Available: {new Date(equipment.available_from).toLocaleDateString()} - {new Date(equipment.available_to).toLocaleDateString()}</span>
+                          <span>{equipment.location || 'Location not specified'}</span>
                         </div>
                         <p className="font-medium text-lg">₹{equipment.daily_rate}/day</p>
-                      </CardContent>
-                      <CardFooter className="flex justify-between">
-                        <div className="text-sm">
-                          <p className="font-medium">{equipment.owner_name}</p>
-                          <div className="flex items-center text-muted-foreground">
-                            <Phone className="h-3 w-3 mr-1" />
-                            <span>{equipment.owner_phone}</span>
-                          </div>
+                        <div className="flex items-center gap-2">
+                          {equipment.available ? (
+                            <span className="text-xs px-2 py-1 bg-green-500/10 text-green-600 rounded-full">Available</span>
+                          ) : (
+                            <span className="text-xs px-2 py-1 bg-red-500/10 text-red-600 rounded-full">Not Available</span>
+                          )}
                         </div>
-                        <Button onClick={() => handleRequestRental(equipment)}>
-                          Request Rental
+                      </CardContent>
+                      <CardFooter>
+                        <Button onClick={() => handleRequestRental(equipment)} className="w-full">
+                          Contact Owner
                         </Button>
                       </CardFooter>
                     </Card>
@@ -369,21 +279,23 @@ const EquipmentRental = () => {
                       </div>
                       <CardHeader>
                         <CardTitle>{equipment.name}</CardTitle>
-                        <CardDescription>{equipment.equipment_type}</CardDescription>
+                        <CardDescription>{equipment.category}</CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-2">
-                        <p className="text-sm">{equipment.description}</p>
+                        <p className="text-sm">{equipment.description || 'No description'}</p>
                         <div className="flex items-center text-sm text-muted-foreground">
                           <MapPin className="h-4 w-4 mr-1" />
-                          <span>{equipment.location}</span>
+                          <span>{equipment.location || 'Not specified'}</span>
                         </div>
                         <p className="font-medium text-lg">₹{equipment.daily_rate}/day</p>
+                        <div className="flex items-center gap-2">
+                          {equipment.available ? (
+                            <span className="text-xs px-2 py-1 bg-green-500/10 text-green-600 rounded-full">Available</span>
+                          ) : (
+                            <span className="text-xs px-2 py-1 bg-red-500/10 text-red-600 rounded-full">Not Available</span>
+                          )}
+                        </div>
                       </CardContent>
-                      <CardFooter>
-                        <Button variant="outline" className="w-full">
-                          Edit Listing
-                        </Button>
-                      </CardFooter>
                     </Card>
                   ))}
                 </div>
@@ -413,8 +325,8 @@ const EquipmentRental = () => {
               <div className="grid gap-2">
                 <Label htmlFor="type">Equipment Type</Label>
                 <Select 
-                  value={newEquipment.equipment_type} 
-                  onValueChange={(value) => setNewEquipment({...newEquipment, equipment_type: value})}
+                  value={newEquipment.category} 
+                  onValueChange={(value) => setNewEquipment({...newEquipment, category: value})}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select type" />
@@ -454,28 +366,8 @@ const EquipmentRental = () => {
                   placeholder="e.g., Anantapur, Andhra Pradesh"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="available-from">Available From</Label>
-                  <Input
-                    id="available-from"
-                    type="date"
-                    value={newEquipment.available_from}
-                    onChange={(e) => setNewEquipment({...newEquipment, available_from: e.target.value})}
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="available-to">Available To</Label>
-                  <Input
-                    id="available-to"
-                    type="date"
-                    value={newEquipment.available_to}
-                    onChange={(e) => setNewEquipment({...newEquipment, available_to: e.target.value})}
-                  />
-                </div>
-              </div>
               <div className="grid gap-2">
-                <Label htmlFor="image">Image URL</Label>
+                <Label htmlFor="image">Image URL (Optional)</Label>
                 <Input
                   id="image"
                   value={newEquipment.image_url}
